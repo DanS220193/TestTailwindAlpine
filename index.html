@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Newsletter Challenge</title>
+  </head>
+  <body>
+    <main
+      id="main"
+      x-data="{email: ''}"
+      class="bg-mainbg w-screen h-screen flex justify-center items-center"
+    >
+      <div
+        id="newsletterCard"
+        x-show="!$store.submittedStore.status"
+        class="bg-white lg:w-3/5 lg:h-[75vh] sm:w-screen sm:h-screen lg:rounded-[2.5rem] flex h-screen w-screen"
+      >
+        <div
+          class="left w-full h-full pt-[10%] pb-[15%] pl-[5%] pr-[5%] flex flex-col gap-[5%] lg:w-1/2 items-center lg:items-start"
+        >
+          <h1 class="robo-bold text-[60px]">Stay Updated!</h1>
+          <p>Join 60,000+ product managers receiving monthly updates on:</p>
+          <ul>
+            <li class="flex gap-[5%]">
+              <img src="./assets/images/icon-list.svg" alt="" />
+              <p>Product discovery and building what matters</p>
+            </li>
+            <li class="flex gap-[5%]">
+              <img src="./assets/images/icon-list.svg" alt="" />
+              <p>Measuring to ensure updates are a success</p>
+            </li>
+            <li class="flex gap-[5%]">
+              <img src="./assets/images/icon-list.svg" alt="" />
+              <p>And much more</p>
+            </li>
+          </ul>
+          <div class="input-container flex flex-col w-full">
+            <label class="flex justify-between">
+              <p class="robo-bold">Email address</p>
+              <p class="robo-bold" x-show="email && !isValidEmail(email)">
+                Valid email required
+              </p>
+            </label>
+            <input
+              type="text"
+              placeholder="email@company.com"
+              x-ref="emailinput"
+              x-model="email"
+              class="shadow appearance-none border rounded-lg w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              x-bind:class="email && !isValidEmail(email) ? 'border-red-400':''"
+            />
+          </div>
+          <button
+            class="py-4 px-6 bg-blackfont text-white w-full rounded-lg robo-bold hover:bg-sky-700 transition-all"
+            x-ref="submitbtn"
+            x-on:click="submitEmail(email, $store.submittedStore)"
+            x-bind:disabled="email && !isValidEmail(email) ? true : false"
+          >
+            Subscribe to monthly newsletter
+          </button>
+        </div>
+        <div class="right w-1/2 h-full p-8 hidden lg:block">
+          <img
+            src="./assets/images/illustration-sign-up-desktop.svg"
+            alt=""
+            class="h-full w-full"
+          />
+        </div>
+      </div>
+      <div
+        x-show="$store.submittedStore.status"
+        class="bg-white lg:w-[40%] lg:h-[75vh] sm:w-screen sm:h-screen lg:rounded-[2.5rem] flex h-screen w-screen flex flex-col pt-[10%] pb-[15%] pl-[5%] pr-[5%] flex flex-col gap-[5%] lg:w-1/2 items-center lg:items-start"
+      >
+        <img src="./assets/images/icon-success.svg" alt="" />
+        <h1 class="robo-bold text-[60px]">Thanks for subscribing!</h1>
+        <p>
+          A confirmation email has been sent to
+          <span><b x-text="email"></b></span> . Please open it and click the
+          button inside to confirm your subscription.
+        </p>
+        <button
+          class="py-4 px-6 bg-blackfont text-white w-full rounded-lg robo-bold hover:bg-sky-700 transition-all"
+          x-on:click="() => {$store.submittedStore.toggle(); email = '';}"
+        >
+          Dismiss message
+        </button>
+      </div>
+    </main>
+  </body>
+  <script src="./script.js"></script>
+</html>
